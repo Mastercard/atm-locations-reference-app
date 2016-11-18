@@ -1,0 +1,134 @@
+<!--
+  Copyright 2016 MasterCard International.
+
+  Redistribution and use in source and binary forms, with or without modification, are
+  permitted provided that the following conditions are met:
+
+  Redistributions of source code must retain the above copyright notice, this list of
+  conditions and the following disclaimer.
+  Redistributions in binary form must reproduce the above copyright notice, this list of
+  conditions and the following disclaimer in the documentation and/or other materials
+  provided with the distribution.
+  Neither the name of the MasterCard International Incorporated nor the names of its
+  contributors may be used to endorse or promote products derived from this software
+  without specific prior written permission.
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+  SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+  SUCH DAMAGE.
+
+-->
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <title>ATM Locations Reference App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <!-- jquery -->
+  <script src="libs/jquery/jquery.min.js"></script>
+
+  <!-- sanitize -->
+  <link rel="stylesheet" href="libs/sanitize/sanitize.css">
+
+  <!-- main -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/view.js"></script>
+  <script src="js/presenter.js"></script>
+  <script src="js/app.js"></script>
+</head>
+
+<body>
+  <div id="atms-container" class="atms-container">
+    <!-- Overlay menu -->
+    <div id="overlay-menu" class="overlay-menu">
+      <div class="overlay-menu-docs">
+        <a href="//developer.mastercard.com/documentation/locations#api_atm_locations" target="_blank">
+          View Documentation
+        </a>
+      </div>
+      <div class="overlay-menu-github">
+        <a href="//github.com/MasterCard/api-ref-app-atm-locations" target="_blank">
+          View on Github
+        </a>
+      </div>
+    </div>
+    <!-- Nav bar -->
+    <nav id="navbar" class="atms-navbar">
+      <div class="atms-navbar-left">
+        <img class="atms-navbar-menu" src="images/menu.svg" onclick="openOverlayMenu()" />
+        <img class="atms-navbar-close" src="images/close.svg" onclick="closeOverlayMenu()" />
+        <img class="atms-navbar-cogs" src="images/cogs.svg" />
+        <img class="atms-navbar-cogs-text" src="images/mc_dev_logo_hrz.svg" />
+        <span class="atms-navbar-title">ATM Locations Reference App</span>
+      </div>
+
+      <div class="atms-navbar-right">
+        <div class="btn atms-button-github">
+          <a href="//github.com/MasterCard/api-ref-app-atm-locations" target="_blank">
+            View on Github
+          </a>
+        </div>
+        <div class="btn atms-button-docs">
+          <a href="//developer.mastercard.com/documentation/locations#api_atm_locations" target="_blank">
+            View Documentation
+          </a>
+        </div>
+      </div>
+    </nav>
+    <!-- Map + ATM List -->
+    <div class="atms-maps-list-container">
+      <div id="map" class="atms-map">
+      </div>
+      <div id="atms-list-wrapper" class="atms-list-wrapper hide">
+        <div class="atms-list-container">
+          <header class="atms-list-header">
+            <div class="atms-list-header-container">
+              <span class="atms-list-nearby">ATMs near New York, NY 10011</span>
+            </div>
+          </header>
+          <div id="atm-list" class="atms-list">
+          </div>
+          <div id="atms-list-loading" class="atms-list-loading hide">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates -->
+  <div id="atms-list-item-template" class="atms-list-item hide">
+    <div class="atms-list-item-header-container">
+      <div class="atms-list-item-header">
+        <p class="atms-list-item-name"></p>
+        <p class="atms-list-item-distance"></p>
+      </div>
+      <img class="atms-list-item-caret" src="images/caret.svg" />
+    </div>
+
+    <div class="atms-list-item-details">
+      <p class="atms-list-item-address atms-list-item-address-line1"></p>
+      <p class="atms-list-item-address atms-list-item-address-line2"></p>
+      <p class="atms-list-item-address atms-list-item-address-city"></p>
+      <hr class="atms-list-item-details-separator" />
+      <p class="atms-list-item-details-services-header">Services</p>
+      <div class="atms-list-item-details-services-list">
+      </div>
+    </div>
+  </div>
+
+  <p id="atms-list-item-details-service-template" class="atms-list-item-details-service hide"></p>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=${google.maps.api.key}&callback=initMap"></script>
+</body>
+</html>

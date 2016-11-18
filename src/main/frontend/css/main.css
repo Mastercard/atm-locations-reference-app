@@ -1,0 +1,539 @@
+/*
+ * Copyright 2016 MasterCard International.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials
+ * provided with the distribution.
+ * Neither the name of the MasterCard International Incorporated nor the names of its
+ * contributors may be used to endorse or promote products derived from this software
+ * without specific prior written permission.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+ * TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ * SUCH DAMAGE.
+ *
+ */
+
+@font-face {
+  font-family: 'FfMarkLight';
+  src: url('../fonts/ff-mark/light.woff') format('woff'), url('../fonts/ff-mark/light.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'FfMarkXLight';
+  src: url('../fonts/ff-mark/xlight.woff') format('woff'), url('../fonts/ff-mark/xlight.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'FfMarkMedium';
+  src: url('../fonts/ff-mark/medium.woff') format('woff'), url('../fonts/ff-mark/medium.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica'), url('../fonts/helvetica/regular.woff') format('woff'), url('../fonts/helvetica/regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  font-weight: bold;
+  src: local('Helvetica-Bold'), url('../fonts/helvetica/bold.woff') format('woff'), url('../fonts/helvetica/bold.ttf') format('ttf');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-size: 10px;
+  line-height: 1;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: auto;
+}
+
+div.btn {
+  border: 1px solid #fd9827;
+  color: #fd9827;
+  border-radius: 4px;
+  display: inline-block;
+  font-family: 'Helvetica', Arial, sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 4rem;
+}
+
+.hide {
+  display: none !important;
+}
+
+div.atms-container {
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: column nowrap;
+  -ms-flex-direction: column;
+  -ms-flex-wrap: none;
+
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Nav bar ---------- */
+
+nav.atms-navbar {
+  flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+
+  transition: all .2s ease-in-out;
+
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+
+  align-items: center;
+  -ms-flex-align: center;
+
+  padding: 0 3rem;
+  box-shadow: 0px 1px 0px #ccc;
+  z-index: 2;
+}
+
+div.atms-navbar-left {
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+
+  align-items: center;
+  -ms-flex-align: center;
+}
+
+div.atms-navbar-right {
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+
+  justify-content: flex-end;
+  -ms-flex-pack: end;
+
+  align-items: center;
+  -ms-flex-align: center;
+}
+
+div.atms-navbar-right .btn {
+  flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+}
+
+img.atms-navbar-menu, img.atms-navbar-cogs, img.atms-navbar-close {
+  display: none;
+}
+
+img.atms-navbar-menu, img.atms-navbar-close {
+  cursor: pointer;
+  position: absolute;
+  top: 2.5rem;
+  left: 2rem;
+}
+
+img.atms-navbar-cogs-text {
+  padding-right: 1.5rem;
+  border-right: 1px solid #e5e5e5;
+}
+
+span.atms-navbar-title {
+  padding-left: 1.5rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+span.atms-navbar-title {
+  font-family: 'FfMarkLight', 'Helvetica', Arial, sans-serif;
+  font-size: 2rem;
+  color: #262626;
+  transition: all .2s ease-in-out;
+}
+
+div.atms-button-github {
+  font-weight: normal;
+  border: none;
+  padding: 0;
+  margin-right: 2.5rem;
+}
+
+div.atms-button-docs {
+  width: 18rem;
+}
+
+/* ---------- Overlay Menu --------- */
+
+div.overlay-menu {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: fixed;
+  background: white;
+  z-index: 2;
+
+  padding-left: 2rem;
+  margin-top: 9rem;
+  transition: all .2s ease-in-out;
+}
+
+div.overlay-menu-open div.overlay-menu,
+div.overlay-menu-open img.atms-navbar-menu,
+div.overlay-menu-open img.atms-navbar-close {
+  display: none;
+}
+
+div.overlay-menu-docs, div.overlay-menu-github {
+  margin-top: 2.5rem;
+  color: #262626;
+
+  font-family: 'FfMarkXLight', 'Helvetica', Arial, sans-serif;
+  font-size: 2rem;
+  line-height: 1.3;
+}
+
+div.atms-maps-list-container {
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+}
+
+/* ---------- Loading indicator ---------- */
+
+div.atms-list-loading {
+  padding: 1.8rem 2rem;
+  color: #222222;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+/* ---------- Google Maps---------- */
+
+div.atms-map {
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+}
+
+/* ---------- ATM List ---------- */
+
+div.atms-list-wrapper {
+  flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  padding: 3rem 3rem 3rem 0;
+  height: 100%;
+  transition: all .2s ease-in-out;
+}
+
+div.atms-list-container {
+  background: #f7f7f7;
+  box-shadow: 0px 2px 4px #ccc;
+  width: 32rem;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+div.atms-list-container::-webkit-scrollbar {
+  display: none
+}
+
+div.atms-list {
+  margin-top: 6rem;
+}
+
+/* ---------- ATM List header ---------- */
+
+header.atms-list-header {
+  position: fixed;
+  width: 32rem;
+  z-index: 1;
+}
+
+div.atms-list-header-container {
+  background: #4fccaf;
+  color: #ffffff;
+  height: 6rem;
+  padding: 2rem;
+
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+
+  align-items: center;
+  -ms-flex-align: center;
+}
+
+span.atms-list-nearby {
+  font-family: 'FfMarkMedium', 'Helvetica', Arial, sans-serif;
+  font-size: 1.8rem;
+  display: inline-block;
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+}
+
+/* ---------- ATM List item ---------- */
+
+div.atms-list-item {
+  padding: 1.8rem 2rem;
+  border-top: 1px solid #e5e5e5;
+
+  -ms-transform: translate3d(0,0,0);
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+div.atms-list-item-selected {
+  background: white;
+}
+
+div.atms-list-item-header-container {
+  display: flex;
+  display: -ms-flexbox;
+
+  flex-flow: row nowrap;
+  -ms-flex-direction: row;
+  -ms-flex-wrap: none;
+
+  align-items: center;
+  -ms-flex-align: center;
+
+  cursor: pointer;
+}
+
+div.atms-list-item-header {
+  flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+}
+
+img.atms-list-item-caret {
+  flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+}
+
+p.atms-list-item-name {
+  font-family: 'FfMarkLight', 'Helvetica', Arial, sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.35;
+}
+
+p.atms-list-item-distance {
+  margin-top: 0.2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #999999;
+  line-height: 1.2;
+}
+
+div.atms-list-item-details {
+  color: black;
+  display: none;
+  overflow: hidden;
+  padding-bottom: 0.6rem;
+}
+
+div.atms-list-item-details > :first-child {
+  margin-top: 1rem;
+}
+
+p.atms-list-item-details-services-header {
+  color: #999999;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+div.atms-list-item-details-services-list {
+  margin-top: 0.5rem;
+}
+
+p.atms-list-item-address, p.atms-list-item-details-service {
+  color: #222222;
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+hr.atms-list-item-details-separator {
+  border: none;
+  border-top: 1px solid #e5e5e5;
+  margin: 1.5rem 0;
+}
+
+/* ---------- Media Queries ---------- */
+
+@media all and (max-width: 899px) {
+  nav.atms-navbar {
+    padding: 0 2rem;
+  }
+
+  span.atms-navbar-title {
+    font-size: 1.5rem;
+  }
+
+  div.atms-list-wrapper {
+    padding: 0;
+    height: auto;
+
+    background: #f7f7f7;
+
+    display: flex;
+    display: -ms-flexbox;
+
+    flex-flow: column nowrap;
+    -ms-flex-direction: column;
+    -ms-flex-wrap: none;
+  }
+
+  div.atms-list-container {
+    box-shadow: none;
+    max-height: none;
+
+    flex: 1 1 0;
+    -ms-flex: 1 1 0;
+
+    display: flex;
+    display: -ms-flexbox;
+
+    flex-flow: column nowrap;
+    -ms-flex-direction: column;
+    -ms-flex-wrap: none;
+  }
+
+  div.atms-list-item {
+    border-top: 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+}
+
+@media all and (max-width: 767px) {
+  nav.atms-navbar {
+    padding: 0 2rem;
+    height: 9rem;
+  }
+
+  img.atms-navbar-menu, img.atms-navbar-cogs {
+    display: inline;
+  }
+
+  img.atms-navbar-cogs-text {
+    display: none;
+  }
+
+  div.atms-navbar-left {
+    flex-flow: column nowrap;
+    -ms-flex-direction: column;
+    -ms-flex-wrap: none;
+
+    justify-content: center;
+    -ms-flex-align: center;
+
+    padding: 0;
+  }
+
+  span.atms-navbar-title {
+    padding: 0;
+    margin: 0;
+    margin-top: 1.2rem;
+  }
+
+  div.atms-navbar-right {
+    display: none;
+  }
+
+  div.overlay-menu-open div.overlay-menu {
+    display: block;
+  }
+
+  div.overlay-menu-open img.atms-navbar-menu {
+    display: none;
+  }
+
+  div.overlay-menu-open img.atms-navbar-close {
+    display: inline;
+  }
+
+  div.atms-maps-list-container {
+    flex-flow: column nowrap;
+    -ms-flex-direction: column;
+    -ms-flex-wrap: none;
+  }
+
+  div.atms-map {
+    width: 100%;
+    max-height: 50%;
+  }
+
+  div.atms-list-wrapper {
+    padding: 0;
+    height: 100%;
+    max-height: 50%;
+  }
+
+  div.atms-list-container, header.atms-list-header {
+    width: 100%;
+    min-width: 32rem;
+  }
+
+  div.atms-list-container {
+    max-height: 100%;
+  }
+}
+
+@media all and (max-width: 320px) {
+  div.atms-maps-list-container {
+    flex-flow: column nowrap;
+    -ms-flex-direction: column;
+    -ms-flex-wrap: none;
+  }
+}

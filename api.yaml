@@ -1,0 +1,205 @@
+swagger: "2.0"
+info:
+  title: ATM Locations Reference Implementation API
+  description: This API provides access to MasterCard's ATM locations database
+  version: "1.0.0"
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /atms:
+    get:
+      description: Returns detailed information about an ATM location. This information can be used to display ATMs on a map, provide driving directions, or show special ATM features.
+      parameters:
+        - name: pageOffset
+          in: query
+          description: Zero-based offset where the response will start. The actual start position is this value +1. An offset of 10 starts at item 11. Combined with the pageLength option this allows pagination to be supported through the service requests.
+          required: false
+          type: integer
+          default: 0
+        - name: pageLength
+          in: query
+          description: Maximum number of items to retrieve within the current "page" of results.
+          required: true
+          type: integer
+          default: 20
+        - name: postalCode
+          in: query
+          description: The zip code or postal code for an ATM location.
+          required: true
+          type: string
+        - name: country
+          in: query
+          description: Any three digit country code for an ATM location. Valid values are 3-digit alpha country code as defined in ISO 3166-1.
+          required: true
+          type: string
+      responses:
+        200:
+          description: An array of ATM locations
+          schema:
+            $ref: '#/definitions/AtmsResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+
+definitions:
+  AtmsResponse:
+    properties:
+      atms:
+        $ref: '#/definitions/Atms'
+
+  Atms:
+    properties:
+      pageOffset:
+        type: integer
+        description: Zero-based offset where the response will start. The actual start position is this value +1. An offset of 10 starts at item 11. Combined with the PageLength option this allows pagination to be supported through the service requests.
+        example: 25
+      totalCount:
+        type: integer
+        description:  This is the total number of ATMs that match your criteria.
+        example: 2746
+      atm:
+        type: array
+        items:
+          $ref: '#/definitions/Atm'
+
+  Atm:
+    properties:
+      location:
+        $ref: '#/definitions/Location'
+      handicapAccessible:
+        type: boolean
+        description: This value indicates whether or not the ATM is accessible by wheelchair.
+        example: true
+      camera:
+        type: boolean
+        description: This value indicates whether or not a security camera is present or near ATM.
+        example: true
+      availability:
+        type: string
+        description: This value indicates the availability hours of the ATM. Options are UNKNOWN, ALWAYS_AVAILABLE, BUSINESS_HOURS, IRREGULAR_HOURS.
+        example: ALWAYS_AVAILABLE
+      accessFees:
+        type: string
+        description: This value indicates under what conditions access fees are charged. Options are UNKNOWN, DOMESTIC, INTERNATIONAL, DOMESTIC_AND_INTERNATIONAL, NO_FEE.
+        example: DOMESTIC
+      sharedDeposit:
+        type: boolean
+        description: This value indicates whether or not the ATM participates in the MasterCard Shared Deposit network.
+        example: true
+      surchargeFreeAlliance:
+        type: boolean
+        description:  This value indicates whether or not the ATM participates in the MasterCard Shared (only) Surcharge Free Alliance network.
+        example: true
+      supportEmv:
+        type: boolean
+        description: This indicates whether the ATM has the ability to read chip cards or not.
+        example: true
+      internationalMaestroAccepted:
+        type: boolean
+        description: This field will provide ATM Terminals which can still process Maestro transactions but are not yet EMV chip reader enabled. Information available only for USA and Argentina till October 2014.
+        example: true
+
+  Location:
+    properties:
+      name:
+        type: string
+        description: This is the name of the ATM location
+        example: QUIK TRIP STORE 1
+      distance:
+        type: number
+        format: double
+        description: This is the numerical value for the distance from the provided location to the selected ATM.
+        example: 1.91
+      distanceUnit:
+        type: string
+        description: This is the unit of measure value for the distance from the provided location to the selected ATM. Options are km and mile.
+        example: km
+      address:
+        $ref: '#/definitions/Address'
+      point:
+        $ref: '#/definitions/Point'
+
+  Address:
+    properties:
+      line1:
+        type: string
+        description:  Line 1 of the street address for the merchant location.  Usually includes the street number and name.
+        example: 42 ELM AVENUE
+      line2:
+        type: string
+        description: Line 2 of the street address usually an apartment number or suite number.
+        example: SUITE 100
+      city:
+        type: string
+        description: The name of the city for an ATM location.
+        example: CHICAGO
+      postalCode:
+        type: string
+        description: The zip code or postal code for an ATM location.
+        example: 60601
+      countrySubdivision:
+        $ref: '#/definitions/CountrySubdivision'
+      country:
+        $ref: '#/definitions/Country'
+
+  CountrySubdivision:
+    properties:
+      name:
+        type: string
+        description: Name of the state or province for an ATM location.
+        example: ILLINOIS
+      code:
+        type: string
+        description: Abbreviated code for the state or province.
+        example: IL
+
+  Point:
+    properties:
+      latitude:
+        type: number
+        format: double
+        description:  Latitude of the merchant's location.
+        example: 32.75723000000001
+      longitude:
+        type: number
+        format: double
+        description: Longitude of the merchant's location.
+        example: 89.700215
+
+  Country:
+    properties:
+      name:
+        type: string
+        description:  Name of the country.
+        example: AFGHANISTAN
+      code:
+        type: string
+        description: Three digit alpha country code as defined in ISO 3166-1.
+        example: AFG
+
+  ErrorResponse:
+    properties:
+      errors:
+        $ref: '#/definitions/Errors'
+
+  Errors:
+    properties:
+      error:
+        type: array
+        items:
+          $ref: '#/definitions/Error'
+
+  Error:
+    properties:
+      source:
+        type: string
+        description: Unique identifier that attempts to define the field in error when available.  If a specific field can't be identified System will be returned.
+        example: radius
+      reason:
+        type: string
+        description: Identify the reason for the error.

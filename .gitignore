@@ -1,0 +1,8 @@
+**/bin/
+**/target/
+
+.DS-Store
+**/.DS_Store
+.idea
+*.iml
+*.p12
