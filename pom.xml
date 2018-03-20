@@ -78,7 +78,12 @@
         <dependency>
             <groupId>com.mastercard.api</groupId>
             <artifactId>locations</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mastercard.api</groupId>
+            <artifactId>sdk-api-core</artifactId>
+            <version>1.4.19</version>
         </dependency>
 
         <dependency>

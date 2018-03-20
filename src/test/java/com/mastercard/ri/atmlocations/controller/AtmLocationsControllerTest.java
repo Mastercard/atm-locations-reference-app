@@ -28,8 +28,8 @@
 package com.mastercard.ri.atmlocations.controller;
 
 import com.mastercard.api.core.ApiConfig;
+import com.mastercard.api.core.model.Environment;
 import com.mastercard.api.core.security.Authentication;
-import com.mastercard.api.locations.SDKConfig;
 import com.mastercard.ri.atmlocations.Constants;
 import com.mastercard.ri.atmlocations.config.AppConfig;
 import org.apache.commons.io.IOUtils;
@@ -79,8 +79,8 @@ public class AtmLocationsControllerTest implements Constants {
     @Before
     public void setup() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        SDKConfig.setHost("http://127.0.0.1:" + mockServerRule.getPort());
-
+        Environment.MAPPINGS.put(Environment.LOCALHOST, new String[]{"http://127.0.0.1:" + mockServerRule.getPort(), null});
+        ApiConfig.setEnvironment(Environment.LOCALHOST);
         ApiConfig.setAuthentication(mock(Authentication.class));
     }
 
