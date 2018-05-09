@@ -66,7 +66,7 @@ var Presenter = (function($, navigator, API) {
         .done(function(data) {
           pageOffset += pageLength;
 
-          if (data.totalCount <= pageOffset * pageLength) {
+          if (data.totalCount <= pageOffset) {
             maxItemsReached = true;
           }
 

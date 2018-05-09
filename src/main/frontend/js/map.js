@@ -36,7 +36,8 @@ var Maps = (function() {
 
     var map = new google.maps.Map(domElem, {
       zoom: zoom,
-      center: center
+      center: center,
+      fullscreenControl: false
     });
 
     if (mapLoadedCallback) {
